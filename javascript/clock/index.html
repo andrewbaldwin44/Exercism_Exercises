@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+  <script type="text/javascript">
+    class Clock {
+      constructor(hours = 0, minutes = 0) {
+        let date = new Date();
+        date.setHours(hours);
+        date.setMinutes(minutes);
+
+        this.clock = {
+          hours: date.getHours(),
+          minutes: date.getMinutes()
+        }
+      }
+
+      formatTime() {
+        if (this.clock.hours.toString().length == 1) {
+          this.clock.hours = `0${this.clock.hours}`;
+        }
+        if (this.clock.minutes.toString().length == 1) {
+          this.clock.minutes = `0${this.clock.minutes}`;
+        }
+      }
+
+      toString() {
+        this.formatTime();
+        return(`${this.clock.hours}:${this.clock.minutes}`);
+      }
+
+      plus(minutes) {
+        return this.clock.minutes += minutes;
+      }
+    }
+    let something  = new Clock(8, 0);
+    console.log(something.plus());
+  </script>
+</html>
