@@ -1,36 +1,33 @@
 class Triangle
-  def initialize(triangle)
-    @sides = triangle
-    @triangle = triangle if triangle?
+  def initialize(sides)
+    @sides = sides
   end
 
   private
 
-  attr_accessor :triangle, :sides
+  attr_reader :sides
 
   def triangle?
-    sides.none?(&:zero?) && sides.min(2).sum > sides.max
+    @triangle ||= sides if sides.none?(&:zero?) && sides.min(2).sum > sides.max
+    !!@triangle
+  end
+
+  def unique_sides?(quantity)
+    sides.uniq.length == quantity
   end
 
   public
 
-  def valid?
-    report = 'A triangle with sides of %s is %s.'
-    valid_or_invalid = triangle ? 'valid' : 'invalid'
-    puts report % [sides.join(', '), valid_or_invalid]
-    !!triangle
-  end
-
   def equilateral?
-    triangle && triangle.uniq.length == 1
+    triangle? && unique_sides?(1)
   end
 
   def isosceles?
-    triangle && !scalene?
+    triangle? && !scalene?
   end
 
   def scalene?
-    triangle && triangle.uniq.length == 3
+    triangle? && unique_sides?(3)
   end
 
   def degenerate?
@@ -39,5 +36,19 @@ class Triangle
 end
 
 if $PROGRAM_NAME == __FILE__
-  puts Triangle.new([1, 1.2, 1.5]).valid?
+  require_relative "report"
+  Triangle.include Report
+  puts Triangle.new([1, 1.2, 1.5]).report
+  puts Triangle.new([1, 2, 3]).report
+  puts Triangle.new([3, 4, 4]).report
+  puts Triangle.new([4, 4, 4]).report
+  puts Triangle.new([2, 3, 4]).report.reverse
+end
+
+if defined? Minitest
+  describe "Rocking the degenerate triangle test" do
+    it 'must be true that this is a degenerate triangle' do
+      expect(Triangle.new([1, 2, 1]).degenerate?).must_equal true
+    end
+  end
 end

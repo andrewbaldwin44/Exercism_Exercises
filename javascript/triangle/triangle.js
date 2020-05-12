@@ -1,33 +1,33 @@
 export class Triangle {
   constructor(a, b, c) {
-    this.name = "Triangle";
-    this.a = a;
-    this.b = b;
-    this.c = c;
+    this.sides = [a, b, c];
   }
 
-  checkInteger() {
-    return this.a > 0 && this.b > 0 && this.c > 0;
+  sumOfSides() {
+    return Math.round(this.sides.reduce((a, b) => a + b, 0) * 10) / 10
   }
 
-  checkInequality() {
-    return this.a + this.b < this.c || this.b + this.c < this.a || this.a + this.c < this.b;
+  triangle() {
+    return 2 * Math.max(...this.sides) < this.sumOfSides();
   }
 
-  checkDegenerate() {
-    return this.a + this.b == this.c || this.b + this.c == this.a || this.a + this.c == this.b;
+  uniqueSides(quantity) {
+    return new Set(this.sides).size == quantity;
   }
-
 
   isEquilateral() {
-    return (this.checkInteger() && !this.checkInequality() && this.a === this.b && this.b === this.c);
+    return (this.triangle() && this.uniqueSides(1));
   }
 
   isIsosceles() {
-    return (this.checkInteger() && !this.checkInequality() && this.name == "Triangle" && (this.a == this.b || this.b == this.c || this.a == this.c));
+    return (this.triangle() && !this.isScalene());
   }
 
   isScalene() {
-    return (this.checkInteger() && !this.checkInequality() && this.name == "Triangle" && this.a != this.b && this.b != this.c && this.a != this.c);
+    return (this.triangle() && this.uniqueSides(3));
+  }
+
+  isDegenerate() {
+    return this.sides.every(side => side > 0) && 2 * Math.max(...this.sides) == this.sumOfSides();
   }
 }

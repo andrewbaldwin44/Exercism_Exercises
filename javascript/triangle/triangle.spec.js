@@ -101,4 +101,31 @@ describe('Triangle', () => {
       expect(triangle.isScalene()).toBe(true);
     });
   });
+
+  describe('degenerate triangle', () => {
+    test('no sides are equal', () => {
+      const triangle = new Triangle(5, 4, 6);
+      expect(triangle.isDegenerate()).toBe(false);
+    });
+
+    test('all sides are equal', () => {
+      const triangle = new Triangle(4, 4, 4);
+      expect(triangle.isDegenerate()).toBe(false);
+    });
+
+    test('two sides are equal', () => {
+      const triangle = new Triangle(2, 2, 4);
+      expect(triangle.isDegenerate()).toBe(true);
+    });
+
+    test('may not violate triangle inequality', () => {
+      const triangle = new Triangle(0, 0, 0);
+      expect(triangle.isDegenerate()).toBe(false);
+    });
+
+    test('sides may be floats', () => {
+      const triangle = new Triangle(0.9, 0.3, 0.6);
+      expect(triangle.isDegenerate()).toBe(true);
+    });
+  });
 });
