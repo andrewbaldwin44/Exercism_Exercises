@@ -1,20 +1,14 @@
 export const hey = (message) => {
-  const noWhitespace = message.replace(/\s/g, '')
-  const punctuation = noWhitespace.slice(-1);
-  const noPunctuation = message.replace(/[^A-Za-z]/g, "");
-  const allCaps = message.replace(/[^A-Z]/g, "");
+  const FORCEFUL_QUESTION = /^(?<=\b)[^a-z0-9]+\?$/
+  const REGULAR_QUESTION = /\?$/
+  const YELLING = /^[^a-z]+(?<!\d)$/
+  const SILENCE = /^\s*$/
 
-  const questionResponse = "Sure.";
-  const yellResponse = "Whoa, chill out!";
-  const yellQuestionResponse = "Calm down, I know what I'm doing!";
-  const defaultResponse = "Whatever.";
-  const blankResponse = "Fine. Be that way!";
+  message = message.trim();
 
-  if (noWhitespace == "") return blankResponse;
-  else if (allCaps == noPunctuation && allCaps != "") {
-    if (punctuation == "?") return yellQuestionResponse;
-    return yellResponse;
-  }
-  else if (punctuation == "?" && noWhitespace.slice(-1) == punctuation) return questionResponse;
-  else return defaultResponse;
+  if (message.match(FORCEFUL_QUESTION)) return "Calm down, I know what I'm doing!"
+  else if (message.match(REGULAR_QUESTION)) return "Sure."
+  else if (message.match(YELLING)) return "Whoa, chill out!"
+  else if (message.match(SILENCE)) return "Fine. Be that way!"
+  else return "Whatever."
 };

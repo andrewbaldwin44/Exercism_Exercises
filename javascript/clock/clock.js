@@ -1,7 +1,7 @@
 const HOUR_MINUTES = 60;
-const DAY_MINUTES = 24 * 60;
+const DAY_MINUTES = 1440;
 
-const modulus = (time_as_minutes) => (DAY_MINUTES + (time_as_minutes % DAY_MINUTES)) % DAY_MINUTES;
+const modulus = time_as_minutes => (DAY_MINUTES + (time_as_minutes % DAY_MINUTES)) % DAY_MINUTES;
 
 export class Clock {
   constructor(hours, minutes = 0) {
