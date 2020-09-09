@@ -1,0 +1,11 @@
+/.exercism
+
+#JavaScript
+/node_modules
+.npmrc
+*.eslintrc
+*.config.js
+
+#Python
+/__pycache__
+*.pyc
